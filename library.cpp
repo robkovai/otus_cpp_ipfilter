@@ -18,7 +18,7 @@ IP parse_ip(const string &line) {
         end = ip.find('.', start);
     }
     bytes.push_back(stob(ip.substr(start, end)));
-    return IP(bytes[0], bytes[1], bytes[2], bytes[3]);
+    return bytes;
 }
 
 void read_ip_pool(IPPool &ip_pool) {
@@ -29,14 +29,19 @@ void read_ip_pool(IPPool &ip_pool) {
 }
 
 void sort_ip_pool(IPPool &ip_pool) {
-    sort(ip_pool.rbegin(), ip_pool.rend());
+    sort(ip_pool.begin(), ip_pool.end(), greater<IP>());
 }
 
 void print_ip(const IP &ip) {
-    cout << short(get<0>(ip)) << "." << short(get<1>(ip)) << "." << short(get<2>(ip)) << "." << short(get<3>(ip)) << endl;
+    for (auto it = ip.cbegin(); it != ip.cend(); ++it) {
+        cout << short(*it);
+        if (it != ip.cend() - 1)
+            cout << ".";
+    }
+    cout << endl;
 }
 
 void print_ip_pool(const IPPool &ip_pool) {
-    for (auto ip : ip_pool)
+    for (auto &ip : ip_pool)
         print_ip(ip);
 }
